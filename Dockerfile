@@ -10,7 +10,8 @@
 FROM python:2-slim
 MAINTAINER hugues@sutoiku.com
 
-RUN pip install cli53
+#RUN pip install cli53
+ENV CLI53_VERSION 0.6.7
 
 RUN mkdir /app
 WORKDIR /app
@@ -18,7 +19,9 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y wget curl --no-install-recommends && rm -rf /var/lib/apt/lists/* && \
 	wget https://github.com/jwilder/docker-gen/releases/download/0.4.0/docker-gen-linux-amd64-0.4.0.tar.gz && \
 	tar xvzf docker-gen-linux-amd64-0.4.0.tar.gz -C /usr/local/bin && \
-	rm docker-gen-linux-amd64-0.4.0.tar.gz
+	rm docker-gen-linux-amd64-0.4.0.tar.gz && \
+        wget https://github.com/barnybug/cli53/releases/download/$CLI53_VERSION/cli53-linux-amd64 && mv cli53-linux-amd64 /usr/local/bin/cli53 && \
+        chmod +x /usr/local/bin/cli53
 
 ADD cli53routes.tmpl /app/cli53routes.tmpl
 
